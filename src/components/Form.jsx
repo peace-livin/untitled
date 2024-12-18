@@ -2,6 +2,7 @@ import { RiMagicLine, RiSparklingFill } from "react-icons/ri";
 import Intro from "./Intro";
 import config from "../utils/config";
 import { useForm } from "react-hook-form";
+import spamDetect from "../utils/spamDetective";
 
 
   const services = [
@@ -29,36 +30,27 @@ import { useForm } from "react-hook-form";
   });
  
 
+  const handleFormSubmit = async (data) => {
+    const spamCheck = await spamDetect(data.message);
 
-const handleFormSubmit = async (data) => {
-  try {
-    const res = await fetch("https://vector.profanity.dev", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: data.message }),
-    });
-    const resData = await res.json();
-    if (resData.isProfanity) return console.log("Contains some bad words");
+    if (spamCheck.isProfanity) {
+      console.log("Sahi se fill karo");
+    } else {
+      const formData = new FormData();
+      formData.append(config.fullname, data.fullname);
+      formData.append(config.email, data.email);
+      formData.append(config.message, data.message);
+      formData.append(config.services, data.services);
 
-    const formData = new FormData();
-    formData.append(configs.fullname, data.fullname);
-    formData.append(configs.email, data.email);
-    formData.append(configs.message, data.message);
-    formData.append(configs.services, data.services);
-
-    fetch(configs.submitUrl, {
-      method: "POST",
-      mode: "no-cors",
-      body: formData,
-    }).then(() => {
-      console.log("Form submit hogya!");
-    });
-  } catch (err) {
-    console.error("Error occured", err);
-  }
-};
+      fetch(config.submitUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
+      }).then(() => {
+        console.log("Form submit hogya!");
+      });
+    }
+  };
 
 
 
