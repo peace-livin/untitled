@@ -4,9 +4,6 @@ import config from "../utils/config";
 import { useForm } from "react-hook-form";
 
 
-
-
-  
   const services = [
     "Website Design",
     "Content",
@@ -15,6 +12,8 @@ import { useForm } from "react-hook-form";
     "User Research",
     "Other",
   ];
+
+
   function From(){
   const {
     register,
@@ -28,15 +27,49 @@ import { useForm } from "react-hook-form";
       services: [],
     },
   });
+ 
+//     console.log(data);
+// const formData = new FormData();
+//     formData.append("config.fullname", data.fullname);
+//     formData.append("config.email", data.email);
+//     formData.append("config.message", data.message);
+//     formData.append("config.services", data.services);
+//    feach(config.submitUrl,
+//   {method:"POST",
+//     mode:"no-cors",
+//     body:formData}).then(()=>
+// console.log("Form submitted successfully!",config.userResponses),
+// );
+
+const handleFormSubmit = async (data) => {
+  try {
+    const res = await fetch("https://vector.profanity.dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: data.message }),
+    });
+    const resData = await res.json();
+    if (resData.isProfanity) {
+      console.log("Contains some bad words");
+    } else {
+      console.log("Form could be submitted");
+    }
+  } catch (err) {
+    console.error("Error occured", err);
+  }
+};
+
+
 
   return (
     <>
       <Intro />
       <form
         className="flex flex-col gap-1"
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-        })}
+        onSubmit={handleSubmit( handleFormSubmit)}
+        
       >
         {/* Inputs */}
         <input
@@ -118,7 +151,7 @@ import { useForm } from "react-hook-form";
           className="flex items-center justify-center gap-2 rounded bg-zinc-950 p-2 text-white"
         >
           Let's get started
-          <RiSparklingFill className="text-blue-500" size={20} />
+          <RiSparklingFill className="text-yellow-500" size={20} />
         </button>
       </form>
     </>
