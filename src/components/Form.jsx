@@ -28,18 +28,7 @@ import { useForm } from "react-hook-form";
     },
   });
  
-//     console.log(data);
-// const formData = new FormData();
-//     formData.append("config.fullname", data.fullname);
-//     formData.append("config.email", data.email);
-//     formData.append("config.message", data.message);
-//     formData.append("config.services", data.services);
-//    feach(config.submitUrl,
-//   {method:"POST",
-//     mode:"no-cors",
-//     body:formData}).then(()=>
-// console.log("Form submitted successfully!",config.userResponses),
-// );
+
 
 const handleFormSubmit = async (data) => {
   try {
@@ -51,15 +40,26 @@ const handleFormSubmit = async (data) => {
       body: JSON.stringify({ message: data.message }),
     });
     const resData = await res.json();
-    if (resData.isProfanity) {
-      console.log("Contains some bad words");
-    } else {
-      console.log("Form could be submitted");
-    }
+    if (resData.isProfanity) return console.log("Contains some bad words");
+
+    const formData = new FormData();
+    formData.append(configs.fullname, data.fullname);
+    formData.append(configs.email, data.email);
+    formData.append(configs.message, data.message);
+    formData.append(configs.services, data.services);
+
+    fetch(configs.submitUrl, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData,
+    }).then(() => {
+      console.log("Form submit hogya!");
+    });
   } catch (err) {
     console.error("Error occured", err);
   }
 };
+
 
 
 
