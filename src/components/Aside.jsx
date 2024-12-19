@@ -49,7 +49,7 @@ function Aside() {
       </section>
 
       {/* Social */}
-      <section className="flex gap-1 text-3xl text-lime-700">
+      <section className="flex gap-1 text-3xl text-blue-400">
         <RiFacebookBoxLine />
         <RiTwitterXFill />
         <RiLinkedinBoxLine />
