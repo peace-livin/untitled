@@ -9,14 +9,14 @@ function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 px-4 py-3 md:px-8">
       <Header />
-      <main className="rounded-lg bg-lime-300 p-3">
+      <main className="rounded-lg bg-green-300 p-3">
         <h1 className="text-2xl">Form Submission Success 🎉</h1>
         <p className="my-1 text-lg">{name} your form has been accepted.</p>
         <p className="text-slate-800">
           Go and check the entry here{" "}
           <a
             className="text-blue-600 underline"
-            href={configs.userResponses}
+            href={config.userResponses}
             target="_blank"
           >
             here.
